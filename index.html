@@ -11,9 +11,13 @@
     <link href="./pages/index.css" rel="stylesheet" />
   </head>
   <body class="page">
-    <div class="page__content">
+    <div class="content">
       <header class="header page__section">
-        <img src="./images/logo.svg" alt="Around the U.S. Logo" />
+        <img
+          class="header__logo"
+          src="./images/logo.svg"
+          alt="Around the U.S. Logo"
+        />
       </header>
       <main class="content">
         <section class="profile page__section">
@@ -24,60 +28,84 @@
           />
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
-            <button class="profile__edit-button"></button>
+            <button type="button" class="profile__edit-button"></button>
             <p class="profile__description">Explorer</p>
           </div>
-          <button class="profile__add-button"></button>
+          <button type="button" class="profile__add-button"></button>
         </section>
         <section class="cards page__section">
           <ul class="cards__list">
             <li class="card">
-              <img src="./images/yosemite.jpg" class="card__image" />
+              <img
+                src="./images/yosemite.jpg"
+                class="card__image"
+                alt="yosemite valley"
+              />
               <div class="card__description">
-                <h2 class="cards">Yosemite Valley</h2>
-                <button class="card__like-button"></button>
+                <h2 class="card__title">Yosemite Valley</h2>
+                <button type="button" class="card__like-button"></button>
               </div>
             </li>
             <li class="card">
-              <img src="./images/lake-louise.jpg" class="card__image" />
+              <img
+                src="./images/lake-louise.jpg"
+                class="card__image"
+                alt="lake louise"
+              />
               <div class="card__description">
-                <h2 class="cards">Lake Louise</h2>
-                <button class="card__like-button"></button>
+                <h2 class="card__title">Lake Louise</h2>
+                <button type="button" class="card__like-button"></button>
               </div>
             </li>
             <li class="card">
-              <img src="./images/bald-mountains.jpg" class="card__image" />
+              <img
+                src="./images/bald-mountains.jpg"
+                class="card__image"
+                alt="bald mountains"
+              />
               <div class="card__description">
-                <h2 class="cards">Bald Mountains</h2>
-                <button class="card__like-button"></button>
+                <h2 class="card__title">Bald Mountains</h2>
+                <button type="button" class="card__like-button"></button>
               </div>
             </li>
             <li class="card">
-              <img src="./images/latemar.jpg" class="card__image" />
+              <img
+                src="./images/latemar.jpg"
+                class="card__image"
+                alt="latemar"
+              />
               <div class="card__description">
-                <h2 class="cards">Latemar</h2>
-                <button class="card__like-button"></button>
+                <h2 class="card__title">Latemar</h2>
+                <button type="button" class="card__like-button"></button>
               </div>
             </li>
             <li class="card">
-              <img src="./images/vanoise.jpg" class="card__image" />
+              <img
+                src="./images/vanoise.jpg"
+                class="card__image"
+                alt="vanoise national park"
+              />
               <div class="card__description">
-                <h2 class="cards">Vanoise National Park</h2>
-                <button class="card__like-button"></button>
+                <h2 class="card__title">Vanoise National Park</h2>
+                <button type="button" class="card__like-button"></button>
               </div>
             </li>
             <li class="card">
-              <img src="./images/lago.jpg" class="card__image" />
+              <img
+                src="./images/lago.jpg"
+                class="card__image"
+                alt="lago di braies"
+              />
               <div class="card__description">
-                <h2 class="cards">Lago di Braies</h2>
-                <button class="card__like-button"></button>
+                <h2 class="card__title">Lago di Braies</h2>
+                <button type="button" class="card__like-button"></button>
               </div>
             </li>
           </ul>
         </section>
       </main>
     </div>
-    <footer class="footer__description page__section">
+    <footer class="footer__description page__content">
       &copy; 2025 Around The U.S.
     </footer>
   </body>

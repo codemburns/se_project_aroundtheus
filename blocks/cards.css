@@ -3,11 +3,10 @@
   justify-content: center;
   grid-template-columns: repeat(auto-fit, 282px);
   grid-gap: 20px 17px;
-  padding-left: 200px;
 }
 
-.cards {
-  font-family: Inter, Arial, Arial, Helvetica, sans-serif;
+.card__title {
+  font-family: Inter-Black, Arial, Arial, Helvetica, sans-serif;
   font-weight: 900;
   font-size: 24px;
   text-overflow: ellipsis;

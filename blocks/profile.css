@@ -1,7 +1,6 @@
 .profile {
   display: flex;
   padding-top: 40px;
-  padding-left: 200px;
 }
 
 .profile__info {
@@ -16,14 +15,27 @@
   background: transparent url(../images/Edit\ Button.svg) center no-repeat;
   height: 24px;
   width: 24px;
+  border: 1px;
   grid-area: button;
+  cursor: pointer;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.3;
 }
 
 .profile__add-button {
   background: transparent url(../images/Add-Button.svg) center no-repeat;
   width: 150px;
   height: 50px;
+  padding-left: 165px;
+  border: 1px;
   margin-left: auto;
+  cursor: pointer;
+}
+
+.profile__add-button:hover {
+  opacity: 0.3;
 }
 
 .profile__title {
