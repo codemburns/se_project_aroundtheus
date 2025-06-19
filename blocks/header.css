@@ -1,4 +1,23 @@
 .header {
-  padding-top: 45px;
+  min-height: 120px;
   padding-bottom: 40px;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+
+.header__logo {
+  width: 320px;
+  height: 56px;
+  top: 28px;
+}
+
+@media screen and (max-width: 620px) {
+  .header {
+    min-height: 85px;
+  }
+
+  .header__logo {
+    width: 320px;
+    height: 56px;
+    top: 28px;
+  }
 }

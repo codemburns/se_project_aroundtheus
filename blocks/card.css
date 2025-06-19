@@ -6,6 +6,17 @@
   overflow: hidden;
 }
 
+.card__title {
+  font-family: Inter-Black, Arial, Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  margin: 0;
+  max-width: 220px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .card__image {
   width: 282px;
   height: 282px;
@@ -32,5 +43,5 @@
 }
 
 .card__like-button:hover {
-  opacity: 0.3;
+  opacity: 0.5;
 }

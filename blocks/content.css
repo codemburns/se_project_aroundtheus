@@ -1,58 +1,5 @@
 .content {
   display: flex;
-  max-width: 880px;
-  margin: 0 auto;
   flex-direction: column;
   min-height: 100vh;
-}
-
-@media screen and (max-width: 880px) {
-  .page__section {
-    margin: 0 auto;
-    max-width: 100%;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .header__logo {
-    width: 320px;
-    height: 56px;
-    top: 28px;
-  }
-
-  .page__section {
-    margin: 0 auto;
-    flex-direction: column;
-    max-width: 100%;
-    line-height: 14px;
-  }
-
-  .profile__info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    padding-bottom: 36px;
-  }
-
-  .profile__image {
-    margin: 0 auto;
-  }
-
-  .profile__title {
-    margin: 0 auto;
-  }
-
-  .profile__add-button {
-    width: 100%;
-    margin: 0;
-  }
-
-  .profile__edit-button {
-    margin: 0 auto;
-  }
-
-  .profile__description {
-    margin: 0 auto;
-  }
 }
