@@ -6,20 +6,17 @@
 
 .page__section {
   max-width: 880px;
-  position: relative;
-  margin: 0 auto;
-}
-
-.page__content {
-  max-width: 880px;
   width: 100%;
   position: relative;
   margin: 0 auto;
 }
 
-@media screen and (max-width: 880px) {
-  .page__section {
-    margin: 0 auto;
-    max-width: 100%;
+.page__content {
+  padding: 0 20px;
+}
+
+@media screen and (max-width: 620px) {
+  .page__content {
+    padding: 0 20px;
   }
 }
