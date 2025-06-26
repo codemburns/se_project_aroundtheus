@@ -108,6 +108,8 @@
   .profile__edit-button {
     white-space: nowrap;
     overflow: hidden;
+    width: 18px;
+    height: 18px;
   }
 
   .profile__description {

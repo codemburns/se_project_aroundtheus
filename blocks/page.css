@@ -6,6 +6,7 @@
 
 .page__section {
   max-width: 880px;
+  box-sizing: border-box;
   width: 100%;
   position: relative;
   margin: 0 auto;
@@ -17,6 +18,6 @@
 
 @media screen and (max-width: 620px) {
   .page__content {
-    padding: 0 20px;
+    padding: 0;
   }
 }

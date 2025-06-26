@@ -1,11 +1,7 @@
 .header {
-  margin: 0 32px;
   min-height: 120px;
-  padding-top: 80px;
-  max-width: 880px;
-  width: 100%;
-  position: relative;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid rgba(84, 84, 84, 0.7);
 }
 
@@ -14,28 +10,15 @@
   height: 33px;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 620px) {
   .header {
-    margin: 0 32px;
+    min-height: 85px;
+    padding-left: 25px;
+    margin: 0 0 10px;
   }
 
-  @media screen and (max-width: 620px) {
-    .header {
-      min-height: 85px;
-      margin: 0 0 10px;
-    }
-
-    .header__logo {
-      padding-top: 50px;
-      font-size: 36px;
-      width: 126px;
-      height: 24px;
-    }
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .header {
-    padding: 50px 0;
+  .header__logo {
+    width: 126px;
+    height: 24px;
   }
 }
