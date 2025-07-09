@@ -7,12 +7,11 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
   padding: 0 19px;
-  display: flex;
   display: none;
 }
 
-.modal__opened {
-  display: flex;
+.modal_opened {
+  display: flex !important;
 }
 
 .modal__heading {
