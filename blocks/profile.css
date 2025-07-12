@@ -109,6 +109,7 @@
   .profile__edit-button {
     white-space: nowrap;
     overflow: hidden;
+    border: 1px;
     width: 18px;
     height: 18px;
   }
