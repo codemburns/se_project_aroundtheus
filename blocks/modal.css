@@ -16,9 +16,10 @@
 }
 
 .modal__heading {
-  font-family: Inter, Arial, Arial, Helvetica, sans-serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   font-weight: 900;
   font-size: 24px;
+  margin-top: 0;
   margin-bottom: 54px;
   color: #000;
 }
@@ -40,7 +41,7 @@
   width: 100%;
   height: 50.15px;
   border-radius: 2px;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 100%;
   font-weight: 400;
   border: 0;
@@ -68,7 +69,7 @@
   height: 40px;
   position: absolute;
   cursor: pointer;
-  background-image: url("../images/Close_Icon.svg");
+  background-image: url("../images/Close-Icon.svg");
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: contain;
@@ -82,13 +83,10 @@
   }
   .modal__container {
     width: 282px;
+    padding: 25px 22px;
   }
 
-  .modal_heading {
+  .modal__heading {
     font-size: 18px;
-  }
-
-  .modal-button {
-    line-height: 100%;
   }
 }

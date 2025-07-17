@@ -10,12 +10,17 @@
   height: 33px;
 }
 
-h1 h2 {
+h1 {
   font-family: "Inter";
   font-weight: 900;
 }
 
-. @media screen and (max-width: 620px) {
+h2 {
+  font-family: "Inter";
+  font-weight: 900;
+}
+
+@media screen and (max-width: 620px) {
   .header {
     min-height: 85px;
     padding-left: 25px;
