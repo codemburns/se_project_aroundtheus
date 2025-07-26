@@ -51,6 +51,10 @@
   color: #fff;
 }
 
+.modal__button:hover {
+  opacity: 0.8;
+}
+
 .modal__container {
   margin: auto;
   position: relative;
@@ -73,6 +77,10 @@
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.modal__close:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 620px) {
