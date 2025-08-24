@@ -25,7 +25,12 @@ const initialCards = [
   },
 ];
 
-//Elements
+//Wrappers
+const modalWindow = document.querySelector(".popup");
+const editForm = document.querySelector(".popup__form");
+const placesList = document.querySelector(".cards__list");
+
+//Elements*Buttons
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileCloseButton = document.querySelector("#profile-close-modal");
@@ -36,13 +41,20 @@ const profileDescriptionInput = document.querySelector(
   "#profile-description-input"
 );
 const profileEditForm = profileEditModal.querySelector(".modal__form");
-const cardTemplate =
-  document.querySelector("#card-template").content.firstElementChild;
+const cardTemplate = document
+  .querySelector("#card-template")
+  .content.querySelector(".card");
 const cardListElem = document.querySelector(".cards__list");
+const popupAddModal = document.querySelector("#popup-add-modal");
+const addCloseButton = document.querySelector("#place-close-modal");
+const placesAddForm = document.querySelector(".modal__form2");
+const profileAddButton = document.querySelector("#profile-add-button");
 
 //Functions
-function closePopop() {
+function closePopup() {
   profileEditModal.classList.remove("modal_opened");
+
+  popupAddModal.classList.remove("modal_opened");
 }
 
 function getCardElement(cardData) {
@@ -54,6 +66,13 @@ function getCardElement(cardData) {
   cardImageElem.src = cardData.link;
   cardImageElem.alt = cardData.name;
 
+  const likeButton = cardElement.querySelector(".card__like-button");
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+
+  deleteButton.addEventListener("click", () => {
+    cardElement.remove();
+  });
+
   return cardElement;
 }
 
@@ -62,7 +81,13 @@ function handleProfileEditSubmit(e) {
   e.preventDefault();
   profileTitle.textContent = profileTitleInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
-  closePopop();
+  closePopup();
+}
+
+function handleAddFormSubmit(e) {
+  e.preventDefault();
+
+  closePopup();
 }
 
 //Event Listeners
@@ -73,13 +98,45 @@ profileEditButton.addEventListener("click", () => {
   profileEditModal.classList.add("modal_opened");
 });
 
-profileCloseButton.addEventListener("click", () => {
-  closePopop();
+profileAddButton.addEventListener("click", () => {
+  console.log("Before:", popupAddModal.classList);
+  popupAddModal.classList.add("modal_opened");
+  console.log("After:", popupAddModal.classList);
 });
+
+placesAddForm.addEventListener("submit", handleAddFormSubmit);
+
+profileCloseButton.addEventListener("click", () => {
+  closePopup();
+});
+
+addCloseButton.addEventListener("click", () => {
+  closePopup();
+});
+
+//I don't know how to get second modal to add button but it is created, it's under the edit button.
+//I also don't know why my cards are duplicated. Please help.
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
 
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
   cardListElem.append(cardElement);
+});
+
+const renderCard = (data, wrapper) => {
+  const newCard = getCardElement(data);
+  wrapper.prepend(newCard);
+};
+
+initialCards.forEach((data) => {
+  renderCard(data, placesList);
+});
+
+//like buttons
+const likeButtons = document.querySelectorAll(".card__like-button");
+likeButtons.forEach((likeButton) => {
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-button_active");
+  });
 });
