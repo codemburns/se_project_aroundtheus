@@ -10,6 +10,11 @@
   display: none;
 }
 
+.modal.modal_opened {
+  display: flex;
+  margin: 0;
+}
+
 .modal_opened {
   display: flex;
   margin: 0;
