@@ -47,9 +47,9 @@
   background-image: url(../images/like-active.svg);
 }
 
-.card__like-button .card__delete-button {
+.card__delete-button {
   border: 0;
-  background: url(../images/delete__button.svg) center no-repeat;
+  background: url(../images/delete-button.svg) center no-repeat;
   width: 21px;
   height: 18px;
   cursor: pointer;

@@ -88,6 +88,45 @@
   opacity: 0.6;
 }
 
+.popup__image {
+  max-width: 75vw;
+  max-height: 75vh;
+  top: 50px;
+  left: 50px;
+  bottom: 0;
+  right: 0;
+  padding: 0 19px;
+}
+
+.popup__caption {
+  vertical-align: text-bottom;
+  padding-left: 20px;
+}
+
+.modal__container2 {
+  margin: auto;
+  position: relative;
+  width: 430px;
+  padding: 36px;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+.modal__close2 {
+  border: none;
+  bottom: calc(100% + 5px);
+  left: calc(100% + 400px);
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  cursor: pointer;
+  background-image: url("../images/Close-Icon.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 @media screen and (max-width: 620px) {
   .modal__close {
     width: 26px;

@@ -47,14 +47,18 @@ const cardTemplate = document
 const cardListElem = document.querySelector(".cards__list");
 const popupAddModal = document.querySelector("#popup-add-modal");
 const addCloseButton = document.querySelector("#place-close-modal");
-const placesAddForm = document.querySelector(".modal__form2");
+const placesAddForm = popupAddModal.querySelector(".modal__form2");
 const profileAddButton = document.querySelector("#profile-add-button");
+const cardTitleInput = placesAddForm.querySelector(".modal__type_title");
+const cardUrlInput = placesAddForm.querySelector(".modal__type_url");
+const imageCloseButton = document.querySelector("#popup-close-modal");
 
 //Functions
 function closePopup() {
   profileEditModal.classList.remove("modal_opened");
-
   popupAddModal.classList.remove("modal_opened");
+  const imagePopup = document.querySelector("#image-popup");
+  imagePopup.classList.remove("modal_opened");
 }
 
 function getCardElement(cardData) {
@@ -69,9 +73,26 @@ function getCardElement(cardData) {
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector(".card__delete-button");
 
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-button_active");
+  });
+
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
+
+  const imagePopup = document.querySelector("#image-popup");
+  const popupImage = imagePopup.querySelector(".popup__image");
+  const popupCaption = imagePopup.querySelector(".popup__caption");
+
+  const handlePreviewPicture = (data) => {
+    popupImage.src = data.link;
+    popupImage.alt = data.name;
+    popupCaption.textContent = data.name;
+    openModal(imagePopup);
+  };
+
+  cardImageElem.addEventListener("click", () => handlePreviewPicture(cardData));
 
   return cardElement;
 }
@@ -86,22 +107,29 @@ function handleProfileEditSubmit(e) {
 
 function handleAddFormSubmit(e) {
   e.preventDefault();
-
-  closePopup();
+  const name = cardTitleInput.value;
+  const link = cardUrlInput.value;
+  const newCard = getCardElement({ name, link }, placesList);
+  cardListElem.prepend(newCard);
+  closePopup(popupAddModal);
 }
+
+const cardElement = cardTemplate.cloneNode(true);
+const cardImageElem = cardElement.querySelector(".card__image");
+cardImageElem.addEventListener("click", function (event) {
+  console.log("Something was clicked:", event.target);
+});
 
 //Event Listeners
 profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = profileTitle.textContent;
   profileDescriptionInput.value = profileDescription.textContent;
 
-  profileEditModal.classList.add("modal_opened");
+  openModal(profileEditModal);
 });
 
 profileAddButton.addEventListener("click", () => {
-  console.log("Before:", popupAddModal.classList);
-  popupAddModal.classList.add("modal_opened");
-  console.log("After:", popupAddModal.classList);
+  openModal(popupAddModal);
 });
 
 placesAddForm.addEventListener("submit", handleAddFormSubmit);
@@ -114,29 +142,31 @@ addCloseButton.addEventListener("click", () => {
   closePopup();
 });
 
-//I don't know how to get second modal to add button but it is created, it's under the edit button.
-//I also don't know why my cards are duplicated. Please help.
+imageCloseButton.addEventListener("click", () => {
+  closePopup();
+});
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
-
-initialCards.forEach((cardData) => {
-  const cardElement = getCardElement(cardData);
-  cardListElem.append(cardElement);
-});
 
 const renderCard = (data, wrapper) => {
   const newCard = getCardElement(data);
   wrapper.prepend(newCard);
 };
 
-initialCards.forEach((data) => {
-  renderCard(data, placesList);
+initialCards.forEach((cardData) => {
+  renderCard(cardData, placesList);
 });
 
 //like buttons
 const likeButtons = document.querySelectorAll(".card__like-button");
-likeButtons.forEach((likeButton) => {
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_active");
-  });
-});
+likeButtons.forEach((likeButton) => {});
+
+//Popup elements
+
+function openModal(modal) {
+  modal.classList.add("modal_opened");
+}
+
+function closeModal(modal) {
+  modal.classList.remove("modal_opened");
+}
