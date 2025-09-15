@@ -78,13 +78,13 @@
       <div class="modal__container">
         <button class="modal__close" id="place-close-modal"></button>
         <h2 class="modal__heading">New Place</h2>
-        <form class="modal__form2">
+        <form class="modal__form">
           <input
             type="text"
             id="profile-title-input"
             name="title"
             placeholder="Title"
-            class="modal__field modal__type_title"
+            class="modal__field modal__field_type_title"
             required
           />
           <input
@@ -92,7 +92,7 @@
             id="profile-description-input"
             name="description"
             placeholder="Image link"
-            class="modal__field modal__type_url"
+            class="modal__field modal__field_type_url"
             required
           />
           <button class="modal__button">Create</button>
@@ -101,9 +101,11 @@
     </div>
     <div class="modal" id="image-popup">
       <div class="modal__container2">
-        <button class="modal__close2" id="popup-close-modal"></button>
-        <img src="" alt="" class="popup__image" />
-        <p class="popup__caption"></p>
+        <button class="modal__close" id="popup-close-modal"></button>
+        <div class="modal__image_div">
+          <img src="" alt="" class="modal__image" />
+          <p class="modal__caption"></p>
+        </div>
       </div>
     </div>
     <template id="card-template">
