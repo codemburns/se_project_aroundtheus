@@ -13,8 +13,6 @@
   opacity: 0.3s ease-in;
 }
 
-/*modal doesn't work when I add visibility: hidden*/
-
 .modal_opened {
   display: flex;
   margin: 0;
@@ -101,7 +99,7 @@
   vertical-align: text-bottom;
 }
 
-.modal__container2 {
+.modal__container_div {
   margin: auto;
   position: relative;
   max-width: 75vw;
