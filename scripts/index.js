@@ -98,7 +98,7 @@ function handleProfileEditSubmit(e) {
   e.preventDefault();
   profileTitle.textContent = profileTitleInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
-  closePopup();
+  closeModal(profileEditModal);
 }
 
 function handleAddFormSubmit(e) {
@@ -108,6 +108,7 @@ function handleAddFormSubmit(e) {
   renderCard({ name, link }, placesList);
   placesAddForm.reset();
   cardListElem.prepend();
+  closeModal(popupAddModal);
 }
 
 //Event Listeners
