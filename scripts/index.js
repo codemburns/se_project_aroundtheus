@@ -28,6 +28,8 @@ const initialCards = [
 //Wrappers
 const placesList = document.querySelector(".cards__list");
 
+const addTitleInput = document.querySelector("#add-title-input");
+const addDescriptionInput = document.querySelector("#add-description-input");
 //Elements*Buttons
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
@@ -47,8 +49,6 @@ const popupAddModal = document.querySelector("#popup-add-modal");
 const addCloseButton = document.querySelector("#place-close-modal");
 const placesAddForm = popupAddModal.querySelector(".modal__form");
 const profileAddButton = document.querySelector("#profile-add-button");
-const cardTitleInput = placesAddForm.querySelector(".modal__field_type_title");
-const cardUrlInput = placesAddForm.querySelector(".modal__field_type_url");
 const imageCloseButton = document.querySelector("#popup-close-modal");
 const imagePopup = document.querySelector("#image-popup");
 const popupImage = imagePopup.querySelector(".modal__image");
@@ -103,8 +103,8 @@ function handleProfileEditSubmit(e) {
 
 function handleAddFormSubmit(e) {
   e.preventDefault();
-  const name = cardTitleInput.value;
-  const link = cardUrlInput.value;
+  const name = addTitleInput.value;
+  const link = addDescriptionInput.value;
   renderCard({ name, link }, placesList);
   placesAddForm.reset();
   cardListElem.prepend();
@@ -138,10 +138,50 @@ initialCards.forEach((cardData) => {
 
 //Popup elements
 
+let activeModal = null;
+
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  activeModal = modal;
+  document.addEventListener("keydown", handleEscapeKey);
 }
 
 function closeModal(modal) {
+  const inputElements = modal.querySelectorAll("input");
   modal.classList.remove("modal_opened");
+  const errorInputs = modal.querySelectorAll("input");
+  errorInputs.forEach((input) => {
+    input.value = "";
+  });
+
+  const errorMessages = modal.querySelectorAll(".modal__error_visible");
+  errorMessages.forEach((message) => {
+    message.textContent = "";
+  });
+
+  const form = modal.querySelector("form");
+  if (form) {
+    form.reset();
+  }
+  activeModal = null;
+  document.removeEventListener("keydown", handleEscapeKey);
 }
+
+const handleEscapeKey = (evt) => {
+  if (evt.key === "Escape") {
+    if (activeModal) {
+      closeModal(activeModal);
+    }
+  }
+};
+
+window.onclick = function (event) {
+  if (event.target.classList.contains("modal_opened")) {
+    closeModal(event.target);
+    event.target.setAttribute("aria-hidden", true);
+  }
+};
+
+const modal = document.getElementById("modal");
+
+document.addEventListener("keydown", handleEscapeKey);
