@@ -9,15 +9,14 @@
   padding: 0 19px;
   display: flex;
   display: none;
-  transition: visibility 0.3s;
-  opacity: 0.3s ease-in;
+  transition: visibility 0.3s, opacity 0.3s ease-in;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .modal_opened {
   display: flex;
-  margin: 0;
   transition: visibility 0.3s;
-  opacity: 0.3s ease-in;
   visibility: visible;
   opacity: 1;
 }
@@ -127,6 +126,7 @@
 
 .modal__error_visible {
   opacity: 1;
+  position: absolute;
 }
 
 .modal__button_disabled {
