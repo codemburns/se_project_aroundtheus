@@ -107,7 +107,6 @@ function handleAddFormSubmit(e) {
   const link = addDescriptionInput.value;
   renderCard({ name, link }, placesList);
   placesAddForm.reset();
-  cardListElem.prepend();
   closeModal(popupAddModal);
 }
 
@@ -149,20 +148,6 @@ function openModal(modal) {
 function closeModal(modal) {
   const inputElements = modal.querySelectorAll("input");
   modal.classList.remove("modal_opened");
-  const errorInputs = modal.querySelectorAll("input");
-  errorInputs.forEach((input) => {
-    input.value = "";
-  });
-
-  const errorMessages = modal.querySelectorAll(".modal__error_visible");
-  errorMessages.forEach((message) => {
-    message.textContent = "";
-  });
-
-  const form = modal.querySelector("form");
-  if (form) {
-    form.reset();
-  }
   activeModal = null;
   document.removeEventListener("keydown", handleEscapeKey);
 }
@@ -175,13 +160,9 @@ const handleEscapeKey = (evt) => {
   }
 };
 
-window.onclick = function (event) {
+document.addEventListener("click", function (event) {
   if (event.target.classList.contains("modal_opened")) {
     closeModal(event.target);
     event.target.setAttribute("aria-hidden", true);
   }
-};
-
-const modal = document.getElementById("modal");
-
-document.addEventListener("keydown", handleEscapeKey);
+});
