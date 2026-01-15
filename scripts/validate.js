@@ -27,15 +27,6 @@ function checkInputValidity(formElem, inputElem, settings) {
   hideInputError(formElem, inputElem, settings);
 }
 
-function resetValidation(formElem, inputElem, { inputErrorClass, errorClass }) {
-  if (errorMessageElem) {
-    errorMessageElem.textContent = "";
-    errorMessageElem.classList.remove(errorClass);
-  }
-}
-
-const submitButton = document.querySelectorAll(".modal__button");
-
 function toggleButtonState(inputList, buttonEl, settings) {
   let foundInvalid = false;
 
@@ -53,25 +44,6 @@ function toggleButtonState(inputList, buttonEl, settings) {
     buttonEl.disabled = false;
   }
 }
-
-const usernameInput = document.querySelectorAll(
-  "profile-title-input, profile-description-input",
-  "add-title-input",
-  "add-description-input"
-);
-
-function validateForm() {
-  if (usernameInput.value.length >= 2) {
-    submitButton.disabled = false;
-  } else {
-    submitButton.disabled = true;
-  }
-}
-
-const validationSettings = {
-  formSelector: ".modal__form",
-  inputSelector: ".modal__field",
-};
 
 const settings = {
   formSelector: ".modal__form",
