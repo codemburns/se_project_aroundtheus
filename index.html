@@ -54,6 +54,7 @@
         <button class="modal__close" id="profile-close-modal"></button>
         <h2 class="modal__heading">Edit Profile</h2>
         <form class="modal__form">
+          <div class="input-block">
           <input
             type="text"
             id="profile-title-input"
@@ -65,6 +66,8 @@
             required
           />
           <span class="modal__error" id="profile-title-input-error"></span>
+           </div>
+           <div class="input-block">
           <input
             type="text"
             id="profile-description-input"
@@ -79,7 +82,9 @@
             class="modal__error"
             id="profile-description-input-error"
           ></span>
+           </div>
           <button class="modal__button" type="submit">Save</button>
+           
         </form>
       </div>
     </div>
@@ -88,6 +93,7 @@
         <button class="modal__close" id="place-close-modal"></button>
         <h2 class="modal__heading">New Place</h2>
         <form class="modal__form">
+          <div class="input-block">
           <input
             type="text"
             id="add-title-input"
@@ -99,6 +105,8 @@
             required
           />
           <span class="modal__error" id="add-title-input-error"></span>
+           </div>
+           <div class="input-block">
           <input
             type="url"
             id="add-description-input"
@@ -108,15 +116,18 @@
             required
           />
           <span class="modal__error" id="add-description-input-error"></span>
+          </div>
           <button class="modal__button" type="submit">Create</button>
         </form>
       </div>
     </div>
     <div class="modal" id="image-popup">
-      <div class="modal__container_div">
+      <div class="modal__container modal__container_div">
         <button class="modal__close" id="popup-close-modal"></button>
-        <div class="modal__image modal__image_div">
-          <img src="" alt="" class="modal__image" />
+         <div class="modal__image-div">
+          <img src="" alt="" class="modal__image"/>
+          <p class="modal__caption"></p>
+        </div>
           <p class="modal__caption"></p>
         </div>
       </div>
