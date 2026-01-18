@@ -146,10 +146,15 @@ function openModal(modal) {
 }
 
 function closeModal(modal) {
-  const inputElements = modal.querySelectorAll("input");
   modal.classList.remove("modal_opened");
   activeModal = null;
   document.removeEventListener("keydown", handleEscapeKey);
+  const formElem = modal.querySelector(".modal__form");
+
+  // If a form exists, reset its fields and validation state
+  if (formElem) {
+    resetFormValidation(formElem);
+  }
 }
 
 const handleEscapeKey = (evt) => {
@@ -160,9 +165,12 @@ const handleEscapeKey = (evt) => {
   }
 };
 
-document.addEventListener("click", function (event) {
-  if (event.target.classList.contains("modal_opened")) {
-    closeModal(event.target);
-    event.target.setAttribute("aria-hidden", true);
-  }
+const popups = document.querySelectorAll(".modal");
+
+popups.forEach((popup) => {
+  popup.addEventListener("mousedown", (evt) => {
+    if (evt.target.classList.contains("modal_opened")) {
+      closeModal(popup);
+    }
+  });
 });
