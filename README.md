@@ -14,6 +14,8 @@ This project is made so all the elements are displayed correctly on popular scre
 
 - [Link to the project on Figma](https://www.figma.com/file/ii4xxsJ0ghevUOcssTlHZv/Sprint-3%3A-Around-the-US?node-id=0%3A1)
 
+Link to project in general: https://codemburns.github.io/se_project_aroundtheus/
+
 **Images**
 
 The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster.
@@ -23,3 +25,4 @@ Good luck and have fun!
 GitHub Pages URL: https://codemburns.github.io/se_project_aroundtheus/
 
 Video Link: https://drive.google.com/file/d/1K1dl8ErkPD6FRCjjNZXotDlh7PWWwcLr/view?usp=sharing
+
