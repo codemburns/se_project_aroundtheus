@@ -8,15 +8,12 @@
   z-index: 999;
   padding: 0 19px;
   display: flex;
-  display: none;
   transition: visibility 0.3s, opacity 0.3s ease-in;
   opacity: 0;
   visibility: hidden;
 }
 
 .modal_opened {
-  display: flex;
-  transition: visibility 0.3s;
   visibility: visible;
   opacity: 1;
 }
@@ -26,7 +23,7 @@
   font-weight: 900;
   font-size: 24px;
   margin-top: 0;
-  margin-bottom: 54px;
+  margin-bottom: 0;
   color: #000;
 }
 
@@ -51,7 +48,7 @@
   line-height: 100%;
   font-weight: 400;
   border: 0;
-  margin-top: 28px;
+  margin-top: 36px;
   background-color: #000;
   font-family: Inter, Arial, Helvetica, sans-serif;
   color: #fff;
@@ -108,17 +105,18 @@
   border-radius: 10px;
 }
 
-.modal__image_div {
+.modal__image-div {
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
 .modal__error {
+  position: absolute;
   font-size: 12px;
   line-height: 15px;
   color: #ff0000;
-  opacity: 0;
+  opacity: 1;
   top: calc(100% + 5px);
   left: 0;
   transition: opacity 0.3s;
@@ -134,6 +132,10 @@
   color: #000;
   cursor: not-allowed;
   box-shadow: 0px 0px 25px 0px #00000026;
+}
+
+.input-block {
+  position: relative;
 }
 
 @media screen and (max-width: 620px) {
