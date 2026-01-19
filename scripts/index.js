@@ -145,16 +145,18 @@ function openModal(modal) {
   document.addEventListener("keydown", handleEscapeKey);
 }
 
+function resetModalForm(modal) {
+  const errorDisplay = modal.querySelector(".modal__error");
+  if (errorDisplay) {
+    errorDisplay.textContent = "";
+  }
+}
+
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  resetModalForm(modal);
   activeModal = null;
   document.removeEventListener("keydown", handleEscapeKey);
-  const formElem = modal.querySelector(".modal__form");
-
-  // If a form exists, reset its fields and validation state
-  if (formElem) {
-    resetFormValidation(formElem);
-  }
 }
 
 const handleEscapeKey = (evt) => {
