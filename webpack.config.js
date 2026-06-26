@@ -5,14 +5,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: {
-    main: "./src/index.js",
+    main: "./src/pages/index.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "main.js",
     publicPath: "",
   },
-
   mode: "development",
   devtool: "inline-source-map",
   stats: "errors-only",
@@ -31,6 +30,10 @@ module.exports = {
         test: /\.js$/,
         loader: "babel-loader",
         exclude: "/node_modules/",
+      },
+      {   
+        test: /\.html$/,   
+        loader: "html-loader",
       },
       {
         test: /\.css$/,
@@ -54,6 +57,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      favicon: "./src/images/favicon.ico",
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
