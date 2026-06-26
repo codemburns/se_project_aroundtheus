@@ -29,7 +29,7 @@ export default class Card {
   }
 
   _handleDeleteIcon() {
-    this._cardElement.querySelector(".card__delete-button").remove();
+    this._cardElement.remove();
     this._cardElement = null;
   }
 
