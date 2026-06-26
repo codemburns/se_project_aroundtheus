@@ -1,6 +1,6 @@
-import Popup from './Popup.js';
+import { Popup } from './Popup.js';
 
-class PopupWithForm extends Popup {
+export default class PopupWithForm extends Popup {
   constructor({ popupSelector, handleFormSubmit }) {
     super({ popupSelector });
     this._handleFormSubmit = handleFormSubmit;
@@ -11,13 +11,7 @@ class PopupWithForm extends Popup {
   } 
 
   close() {
-    this._popupForm.reset();
+    this._form.reset();
     super.close();
   }
-
-  //index.js
-
-  const newCardPopup = new PopupWithForm('#image-popup', () => {});
-  newCardPopup.open()
-
-  newCardPopup.close();
+}
