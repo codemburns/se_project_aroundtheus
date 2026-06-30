@@ -23,7 +23,7 @@ export default class Card {
       .querySelector(".card__image")
       .addEventListener("click", () => {
         if (typeof this._handleImageClick === "function") {
-          this._handleImageClick({ name: this._name, link: this._link });
+          this._handleImageClick(this._name, this._link);
         }
       });
   }
