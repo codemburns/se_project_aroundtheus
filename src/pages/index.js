@@ -29,6 +29,18 @@ formValidator.enableValidation();
 const addCardForm = document.querySelector("#popup-add-modal .modal__form");
 const editProfileForm = document.querySelector("#profile-edit-modal .modal__form");
 
+const addCardCloseButton = document.querySelector("#popup-add-modal .modal__close");
+
+addCardCloseButton.addEventListener("click", () => {
+  addCardValidator.resetValidation(); 
+});
+
+const editCardCloseButton = document.querySelector("#profile-edit-modal .modal__close");
+
+editCardCloseButton.addEventListener("click", () => {
+  editProfileValidator.resetValidation(); 
+});
+
 // 2. Instantiate a FormValidator for the Add Card form
 const addCardValidator = new FormValidator(validationConfig, addCardForm);
 addCardValidator.enableValidation();
