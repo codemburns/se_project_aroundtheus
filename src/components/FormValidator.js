@@ -7,7 +7,9 @@ export default class FormValidator {
     this._errorClass = settings.errorClass;
     this._form = formElem;
     this._buttonElement = this._form.querySelector(this._submitButtonSelector);
-    this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
+    this._inputList = Array.from(
+      this._form.querySelectorAll(this._inputSelector),
+    );
   }
 
   _showInputError(inputElem) {
@@ -39,7 +41,7 @@ export default class FormValidator {
   }
 
   _hasInvalidInput() {
-    return this._inputList.some((inputElem) => !inputElem.validity.valid);
+    return this._inputList.some((inputElem) => inputElem.value.trim() === "");
   }
 
   _toggleButtonState() {
@@ -71,10 +73,9 @@ export default class FormValidator {
   }
 
   resetValidation() {
-    this._form.reset();
     this._toggleButtonState();
     this._inputList.forEach((inputElem) => {
-    this._hideInputError(inputElem);
+      this._hideInputError(inputElem);
     });
   }
 }

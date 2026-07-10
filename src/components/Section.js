@@ -7,14 +7,18 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  addItem(element) {
-    this._container.append(element);
-  }
-
   // Public method to render all elements on the page
   renderItems() {
     this._renderedItems.forEach((item) => {
       this._renderer(item);
     });
+  }
+
+  addItem(element, shouldPrepend = true) {
+    if (shouldPrepend) {
+      this._container.prepend(element);
+    } else {
+      this._container.append(element);
+    }
   }
 }

@@ -4,7 +4,8 @@ export default class PopupWithForm extends Popup {
   constructor({ popupSelector, handleFormSubmit }) {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
-    this._form = this._popupElement.querySelector('.modal__form'); 
+    this._form = this._popupElement.querySelector('.modal__form');
+    this._inputList = this._form.querySelectorAll('.modal__field'); 
   } 
 
   // Override the parent setEventListeners()
@@ -18,12 +19,12 @@ export default class PopupWithForm extends Popup {
 
       // Pass the collected form data to your callback function
       this._handleFormSubmit(this._getInputValues()); 
+      this._form.reset();
     });
   }
   
   // Note: You will need a method to fetch input data, for example:
   _getInputValues() {
-    this._inputList = this._form.querySelectorAll('.modal__field');
     this._formValues = {};
     this._inputList.forEach(input => {
       this._formValues[input.name] = input.value;
@@ -31,8 +32,13 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  setInputValues(data) {
+    this._inputList.forEach((input) => {
+      input.value = data[input.name] ?? "";
+    });
+  }
+
    close() {
-    this._form.reset();
     super.close();
   }
 }
