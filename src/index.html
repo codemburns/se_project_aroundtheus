@@ -25,6 +25,10 @@
             alt="Avatar"
             class="profile__image"
           />
+          <div class="profile-overlay">
+          <img src="./images/Avatar_Overlay.png" alt="Overlay" class="avatar-overlay">
+          <img src="./images/Vector.png" alt="Icon" class="profile__overlay-icon">
+         </div>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -116,6 +120,35 @@
           <span class="modal__error" id="add-description-input-error"></span>
           </div>
           <button class="modal__button" type="submit">Create</button>
+        </form>
+      </div>
+    </div>
+    <div class="modal" id="card-delete-modal">
+      <div class="modal__container">
+        <button class="modal__close" id="card-delete-close-modal"></button>
+        <h2 class="modal__heading">Are you sure?</h2>
+        <form class="modal__form">
+          <button class="modal__button modal__button_type_delete" type="submit">Yes</button>
+        </form>
+      </div>
+    </div>
+    <div class="modal" id="change-avatar-modal">
+      <div class="modal__container">
+        <button class="modal__close" id="change-avatar-modal"></button>
+        <h2 class="modal__heading">Change profile picture</h2>
+        <form class="modal__form">
+          <div class="input-block">
+          <input
+            type="url"
+            id="change-avatar-input"
+            name="avatar"
+            placeholder="Image link"
+            class="modal__field modal__field_type_url"
+            required
+          />
+          <span class="modal__error" id="change-avatar-input-error"></span>
+          </div>
+          <button class="modal__button" type="submit">Save</button>
         </form>
       </div>
     </div>
