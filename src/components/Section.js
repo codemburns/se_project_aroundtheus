@@ -14,11 +14,11 @@ export default class Section {
     });
   }
 
-  addItem(element, shouldPrepend = true) {
-    if (shouldPrepend) {
-      this._container.prepend(element);
-    } else {
+  addItem(element, shouldAppend = true) {
+    if (shouldAppend) {
       this._container.append(element);
+    } else {
+      this._container.prepend(element);
     }
   }
 }
