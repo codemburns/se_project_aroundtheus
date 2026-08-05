@@ -6,10 +6,10 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import { Popup } from '../components/Popup.js';
-import { validationConfig, initialCards } from "../utils/constants.js";
+import { validationConfig } from "../utils/constants.js";
 import Api from '../components/Api.js';
 
-// 2. Select the form element from the DOM
+// Initialize core instances
 const userInfo = new UserInfo('.profile__title', '.profile__description');
 const api = new Api({
   baseUrl: 'https://around-api.en.tripleten-services.com/v1',
@@ -19,26 +19,30 @@ const api = new Api({
   }
 });
 
-// 1. Grab the specific form elements inside each modal
+// Track card targets for deletions globally
+let cardToDelete = null;
+const deletedCardIds = new Set();
+
+// Form selectors
 const addCardForm = document.querySelector("#popup-add-modal .modal__form");
 const editProfileForm = document.querySelector("#profile-edit-modal .modal__form");
+const avatarForm = document.querySelector("#change-avatar-modal .modal__form");
 
-const addCardCloseButton = document.querySelector("#popup-add-modal .modal__close");
-
-const editCardCloseButton = document.querySelector("#profile-edit-modal .modal__close");
-
-// 2. Instantiate a FormValidator for the Add Card form
+// Form Validators
 const addCardValidator = new FormValidator(validationConfig, addCardForm);
 addCardValidator.enableValidation();
 
-// 3. Instantiate a FormValidator for the Edit Profile form
 const editProfileValidator = new FormValidator(validationConfig, editProfileForm);
 editProfileValidator.enableValidation();
+
+const avatarValidator = new FormValidator(validationConfig, avatarForm);
+avatarValidator.enableValidation();
 
 // --- Image Preview Popup ---
 const imagePopup = new PopupWithImage('#image-popup');
 imagePopup.setEventListeners();
-let cardToDelete = null;
+
+// --- Card Creation Engine ---
 const createCard = (cardData) => {
   const card = new Card(
     cardData,
@@ -46,17 +50,18 @@ const createCard = (cardData) => {
     (name, link) => {
       imagePopup.open(name, link);
     },
-    (cardElement) => {
-      cardToDelete = cardElement;
+    (cardInstance) => {
+      // Pass the entire card instance object so we can read its server ID later
+      cardToDelete = cardInstance;
       cardDeletePopup.open();
     }
-);
+  );
   return card.getView();
 };
 
-// --- Initial Cards Rendering ---
+// --- Empty Section Template Wrapper ---
 const cardSection = new Section({
-    items: initialCards,
+    items: [], 
     renderer: (cardData) => {
       const cardElement = createCard(cardData);
       cardSection.addItem(cardElement);
@@ -65,7 +70,45 @@ const cardSection = new Section({
   '.cards__list'
 );
 
-cardSection.renderItems();
+const renderCardsFromServer = async () => {
+  try {
+    const response = await fetch(`${api._baseUrl}/cards`, {
+      headers: api._headers
+    });
+
+    if (!response.ok) {
+      throw new Error(`Cards load failed: ${response.status}`);
+    }
+
+    const cardsData = await response.json();
+    const cardListContainer = document.querySelector('.cards__list');
+
+    if (cardListContainer) {
+      cardListContainer.innerHTML = '';
+    }
+
+    const seenCards = new Set();
+
+    cardsData.forEach((cardData) => {
+      const cardId = cardData._id || cardData.id;
+      const cardKey = `${(cardData.name || '').trim().toLowerCase()}|${(cardData.link || '').trim().toLowerCase()}`;
+
+      if (cardId && deletedCardIds.has(cardId)) {
+        return;
+      }
+
+      if (seenCards.has(cardKey)) {
+        return;
+      }
+
+      seenCards.add(cardKey);
+      const cardElement = createCard(cardData);
+      cardSection.addItem(cardElement);
+    });
+  } catch (err) {
+    console.error('Failed to refresh cards:', err);
+  }
+};
 
 // --- Profile Edit Popup ---
 const profileEditPopup = new PopupWithForm({
@@ -81,14 +124,12 @@ const profileEditPopup = new PopupWithForm({
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
       const data = await response.json();
       userInfo.setUserInfo({
-        title: data.name || formData.title,
-        description: data.about || formData.description
+        title: data.name,
+        description: data.about
       });
       profileEditPopup.close();
     } catch (err) {
@@ -96,7 +137,6 @@ const profileEditPopup = new PopupWithForm({
     }
   }
 });
-
 profileEditPopup.setEventListeners();
 
 const openProfileEditPopup = () => {
@@ -107,9 +147,6 @@ const openProfileEditPopup = () => {
 
 const profileEditButton = document.querySelector('#profile-edit-button');
 profileEditButton.addEventListener('click', openProfileEditPopup);
-
-const openProfileButton = document.querySelector(".profile__edit-button");
-openProfileButton.addEventListener("click", openProfileEditPopup);
 
 // --- Add Card Popup ---
 const profileAddPopup = new PopupWithForm({
@@ -125,13 +162,15 @@ const profileAddPopup = new PopupWithForm({
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
       const newCardData = await response.json();
       const newCardElement = createCard(newCardData);
-      cardSection.addItem(newCardElement);
+      
+      if (newCardElement !== null) {
+        cardSection.addItem(newCardElement);
+      }
+      
       profileAddPopup.close();
       addCardValidator.resetValidation();
     } catch (err) {
@@ -139,22 +178,43 @@ const profileAddPopup = new PopupWithForm({
     }
   }
 });
+profileAddPopup.setEventListeners();
 
 const profileAddButton = document.querySelector('#profile-add-button');
 profileAddButton.addEventListener('click', () => {
   profileAddPopup.open();
 });
 
-profileAddPopup.setEventListeners();
-
-// --- Delete Card Popup ---
+// --- Delete Card Popup with API integration ---
 const cardDeletePopup = new PopupWithForm({
   popupSelector: '#card-delete-modal',
-  handleFormSubmit: () => {
-  
-    if (cardToDelete) {
-      cardToDelete.remove();
+  handleFormSubmit: async () => {
+    if (!cardToDelete || !cardToDelete._id) {
       cardDeletePopup.close();
+      return;
+    }
+
+    try {
+      const response = await fetch(`${api._baseUrl}/cards/${cardToDelete._id}`, {
+        method: 'DELETE',
+        headers: api._headers
+      });
+
+      if (!response.ok) {
+        throw new Error(`Delete failed: ${response.status}`);
+      }
+
+      const deletedCardId = cardToDelete._id;
+      if (deletedCardId) {
+        deletedCardIds.add(deletedCardId);
+      }
+
+      cardToDelete.removeCard();
+      cardToDelete = null;
+      cardDeletePopup.close();
+      await renderCardsFromServer();
+    } catch (err) {
+      console.error('Failed to delete card:', err);
     }
   }
 });
@@ -172,9 +232,7 @@ const profileAvatarPopup = new PopupWithForm({
         body: JSON.stringify({ avatar: formData.avatar })
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
       const profileImage = document.querySelector('.profile__image');
       if (profileImage) {
@@ -186,7 +244,6 @@ const profileAvatarPopup = new PopupWithForm({
     }
   }
 });
-
 profileAvatarPopup.setEventListeners();
 
 const overlayButton = document.querySelector('.profile__overlay-icon');
@@ -195,3 +252,24 @@ if (overlayButton) {
     profileAvatarPopup.open();
   });
 }
+
+// --- Unified App Synchronization Pipeline ---
+Promise.all([
+  fetch(`${api._baseUrl}/users/me`, { headers: api._headers }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+])
+  .then(([userData]) => {
+    userInfo.setUserInfo({
+      title: userData.name,
+      description: userData.about
+    });
+
+    const profileImage = document.querySelector('.profile__image');
+    if (profileImage && userData.avatar) {
+      profileImage.src = userData.avatar;
+    }
+  })
+  .catch((err) => {
+    console.error('Initial Application Load Failure:', err);
+  });
+
+renderCardsFromServer();
