@@ -103,7 +103,7 @@ const renderCardsFromServer = async () => {
 
       seenCards.add(cardKey);
       const cardElement = createCard(cardData);
-      cardSection.addItem(cardElement);
+      cardSection.addItem(cardElement, true);
     });
   } catch (err) {
     console.error('Failed to refresh cards:', err);
@@ -168,7 +168,7 @@ const profileAddPopup = new PopupWithForm({
       const newCardElement = createCard(newCardData);
       
       if (newCardElement !== null) {
-        cardSection.addItem(newCardElement);
+        cardSection.addItem(newCardElement, false);
       }
       
       profileAddPopup.close();
