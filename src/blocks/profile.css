@@ -76,7 +76,7 @@
 
 /* Profile Overlay Styles */
 
-.profile-overlay {
+.profile__overlay {
   display: flex;
   position: absolute; 
   align-items: center;
@@ -86,9 +86,25 @@
   opacity: 0;
   transition: opacity .2s ease;
   z-index: 1;
+  pointer-events: none;
 }
 
-.profile:hover .profile-overlay {
+.profile__overlay-image {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-position: center;
+  margin-right: 24px;
+  border-radius: 50%;           /* match circular image */
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity .2s ease;
+  z-index: 1;
+}
+
+.profile__image:hover + .profile__overlay,
+.profile__overlay:hover {
   opacity: 1;
   transition: opacity 0.3s ease;
 }
