@@ -49,6 +49,12 @@ export default class Api {
     });
   }
 
+   toggleLike(cardId, isLiked) {
+    return this._request(`/cards/${cardId}/likes`, {
+      method: isLiked? 'PUT' : 'DELETE'
+    });
+  }
+
   updateAvatar(avatar) {
     return this._request('/users/me/avatar', {
       method: 'PATCH',

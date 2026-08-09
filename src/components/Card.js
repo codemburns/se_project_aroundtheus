@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, cardSelector, handleImageClick, handleDeleteClick) {
+  constructor(data, cardSelector, handleImageClick, handleDeleteClick, handleLikeClick) {
     const cardData = data || {};
     this._name = cardData.name || "Untitled";
     this._link = cardData.link || "";
@@ -7,14 +7,17 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteClick = handleDeleteClick;
-    this._storageKey = `card-liked-${this._id || this._link}`;
+    this._handleLikeClick = handleLikeClick;
+    this._isLiked = Boolean(cardData.isLiked)
   }
 
   _setEventListeners() {
-    this._cardElement
+      this._cardElement
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
-        this._handleLikeIcon();
+        if (typeof this._handleLikeClick === "function") {
+          this._handleLikeClick(this);
+        }
       });
 
     this._cardElement
@@ -39,11 +42,35 @@ export default class Card {
     this._cardElement = null;
   }
 
-  _handleLikeIcon() {
+  setLikedState(isLiked) {
+    this._isLiked = Boolean(isLiked);
+
+    if (!this._cardElement) {
+      return;
+    }
+
     const likeButton = this._cardElement.querySelector(".card__like-button");
-    likeButton.classList.toggle("card__like-button_active");
-    const isLiked = likeButton.classList.contains("card__like-button_active");
-    localStorage.setItem(this._storageKey, isLiked);
+    if (likeButton) {
+      likeButton.classList.toggle("card__like-button_active", this._isLiked);
+    }
+  }
+
+  updateCardData(cardData) {
+    const newCardData = cardData || {};
+    this._name = newCardData.name || this._name;
+    this._link = newCardData.link || this._link;
+    this._id = newCardData._id || newCardData.id || this._id;
+    this._isLiked = Boolean(newCardData.isLiked);
+
+    if (this._cardElement) {
+      this._cardElement.querySelector(".card__title").textContent = this._name;
+
+      const cardImage = this._cardElement.querySelector(".card__image");
+      cardImage.src = this._link;
+      cardImage.alt = this._name;
+
+      this.setLikedState(this._isLiked);
+    }
   }
 
   getView() {
@@ -58,12 +85,7 @@ export default class Card {
     cardImage.src = this._link;
     cardImage.alt = this._name;
 
-    const wasLiked = localStorage.getItem(this._storageKey) === "true";
-    if (wasLiked) {
-      this._cardElement
-        .querySelector(".card__like-button")
-        .classList.add("card__like-button_active");
-    }
+    this.setLikedState(this._isLiked);
 
     this._setEventListeners();
     return this._cardElement;
