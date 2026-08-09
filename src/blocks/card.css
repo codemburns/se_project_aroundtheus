@@ -36,7 +36,7 @@
 }
 
 .card__like-button {
-  border: 0;
+  border: none;
   background: transparent url(../images/Like-Button.svg) center no-repeat;
   width: 21px;
   height: 18px;
@@ -48,7 +48,7 @@
 }
 
 .card__delete-button {
-  border: 0;
+  border: none;
   background: url(../images/delete-button.svg) center no-repeat;
   width: 21px;
   height: 18px;

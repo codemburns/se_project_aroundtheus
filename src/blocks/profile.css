@@ -74,6 +74,51 @@
   margin-right: 24px;
 }
 
+/* Profile Overlay Styles */
+
+.profile__overlay {
+  display: flex;
+  position: absolute; 
+  align-items: center;
+  justify-content: center;       
+  border-radius: 50%;           /* match circular image */
+  background-color: rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity .2s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.profile__overlay-image {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-position: center;
+  margin-right: 24px;
+  border-radius: 50%;           /* match circular image */
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity .2s ease;
+  z-index: 1;
+}
+
+.profile__image:hover + .profile__overlay,
+.profile__overlay:hover {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Style and size your vector icon */
+.profile__overlay-icon {
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    opacity: 1;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 820px) {
   .profile {
     padding: 40px 0 20px;

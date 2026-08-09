@@ -12,9 +12,9 @@ export default class FormValidator {
     );
   }
 
-    disableSubmitButton() {
+  disableSubmitButton() {
     this._buttonElement.classList.add(this._inactiveButtonClass);
-    this._buttonElement.setAttribute('disabled', true);
+    this._buttonElement.setAttribute("disabled", true);
   }
 
   _showInputError(inputElem) {
@@ -37,7 +37,30 @@ export default class FormValidator {
     }
   }
 
+  _validateAvatarProfileUrl(inputElem) {
+    const value = inputElem.value.trim();
+    const pattern =
+      /^(https?:\/\/)[\w.-]+(?:\.[\w.-]+)+(?:\/[^\s]*)?$/i;
+
+    if (!value) {
+      return "Avatar URL is required.";
+    }
+
+    if (!pattern.test(value)) {
+      return "Please enter a valid URL.";
+    }
+
+    return "";
+  }
+
   _checkInputValidity(inputElem) {
+    if (inputElem.id === "change-avatar-input") {
+      const message = this._validateAvatarProfileUrl(inputElem);
+      inputElem.setCustomValidity(message);
+    } else {
+      inputElem.setCustomValidity("");
+    }
+
     if (!inputElem.validity.valid) {
       this._showInputError(inputElem);
     } else {
@@ -46,7 +69,9 @@ export default class FormValidator {
   }
 
   _hasInvalidInput() {
-    return this._inputList.some((inputElem) => inputElem.value.trim() === "");
+    return this._inputList.some((inputElem) => {
+      return inputElem.value.trim() === "" || !inputElem.validity.valid;
+    });
   }
 
   _toggleButtonState() {
@@ -77,12 +102,13 @@ export default class FormValidator {
     this._setEventListeners();
   }
 
-resetValidation() {
-  this._inputList.forEach((inputElem) => {
-    inputElem.value = "";
-    this._hideInputError(inputElem);
-  });
+  resetValidation() {
+    this._inputList.forEach((inputElem) => {
+      inputElem.value = "";
+      inputElem.setCustomValidity("");
+      this._hideInputError(inputElem);
+    });
 
-  this.disableSubmitButton();
+    this.disableSubmitButton();
   }
 }

@@ -6,27 +6,37 @@ export default class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit;
     this._form = this._popupElement.querySelector('.modal__form');
     this._inputList = this._form.querySelectorAll('.modal__field'); 
-  } 
+    this._submitButton = this._form.querySelector('button[type="submit"]');
+    this._submitButtonText = this._submitButton ? this._submitButton.textContent : 'Save';
+  }
 
   // Override the parent setEventListeners()
   setEventListeners() {
-    // 1. Keep the overlay and escape key behavior from the parent class
     super.setEventListeners();
 
-    // 2. Add the submit event listener
     this._form.addEventListener('submit', (evt) => {
-      evt.preventDefault(); // Prevent the browser from reloading on submit
+      evt.preventDefault();
 
-      // Pass the collected form data to your callback function
-      this._handleFormSubmit(this._getInputValues()); 
-      this._form.reset();
+      this.renderLoading(true);
+
+      const submitResult = this._handleFormSubmit(this._getInputValues());
+
+      if (submitResult && typeof submitResult.then === 'function') {
+        submitResult.finally(() => {
+          this.renderLoading(false);
+          this._form.reset();
+        });
+      } else {
+        this.renderLoading(false);
+        this._form.reset();
+      }
     });
   }
   
   // Note: You will need a method to fetch input data, for example:
   _getInputValues() {
     this._formValues = {};
-    this._inputList.forEach(input => {
+    this._inputList.forEach((input) => {
       this._formValues[input.name] = input.value;
     });
     return this._formValues;
@@ -34,11 +44,18 @@ export default class PopupWithForm extends Popup {
 
   setInputValues(data) {
     this._inputList.forEach((input) => {
-      input.value = data[input.name] ?? "";
+      input.value = data[input.name] ?? '';
     });
   }
 
-   close() {
+  renderLoading(isLoading) {
+    if (!this._submitButton) return;
+
+    this._submitButton.disabled = isLoading;
+    this._submitButton.textContent = isLoading ? 'Saving...' : this._submitButtonText;
+  }
+
+  close() {
     super.close();
   }
 }
