@@ -19,6 +19,7 @@ const api = new Api({
 
 let cardToDelete = null;
 const deletedCardIds = new Set();
+let currentUserId = null;
 
 const addCardForm = document.querySelector('#popup-add-modal .modal__form');
 const editProfileForm = document.querySelector('#profile-edit-modal .modal__form');
@@ -77,6 +78,7 @@ const profileAddPopup = new PopupWithForm({
     }
   }
 });
+
 profileAddPopup.setEventListeners();
 
 const profileAvatarPopup = new PopupWithForm({
@@ -151,9 +153,34 @@ if (profileImage) {
   });
 }
 
+const normalizeCardData = (cardData) => {
+  const normalizedId = cardData._id || cardData.id;
+  const likes = Array.isArray(cardData.likes) ? cardData.likes : [];
+  const hasExplicitLikeState = typeof cardData.isLiked === 'boolean';
+  const isLiked = hasExplicitLikeState
+    ? Boolean(cardData.isLiked)
+    : currentUserId
+      ? likes.some((like) => {
+          if (typeof like === 'string') {
+            return like === currentUserId;
+          }
+
+          return like?._id === currentUserId || like?.id === currentUserId;
+        })
+      : false;
+
+  return {
+    ...cardData,
+    _id: normalizedId,
+    id: normalizedId,
+    isLiked
+  };
+};
+
 const createCard = (cardData) => {
+  const normalizedCardData = normalizeCardData(cardData);
   const card = new Card(
-    cardData,
+    normalizedCardData,
     '#card-template',
     (name, link) => {
       imagePopup.open(name, link);
@@ -161,6 +188,26 @@ const createCard = (cardData) => {
     (cardInstance) => {
       cardToDelete = cardInstance;
       cardDeletePopup.open();
+    },
+    async (cardInstance) => {
+      const wasLiked = cardInstance._isLiked;
+      const nextLikedState = !wasLiked;
+      cardInstance.setLikedState(nextLikedState);
+
+      try {
+        const updatedCard = await api.toggleLike(cardInstance._id, nextLikedState);
+        const nextCardData = normalizeCardData({
+          ...updatedCard,
+          _id: updatedCard._id || updatedCard.id,
+          id: updatedCard._id || updatedCard.id,
+          isLiked: updatedCard.isLiked ?? nextLikedState
+        });
+
+        cardInstance.updateCardData(nextCardData);
+      } catch (err) {
+        cardInstance.setLikedState(wasLiked);
+        console.error('Like update failed:', err);
+      }
     }
   );
   return card.getView();
@@ -209,6 +256,7 @@ const renderCardsFromServer = async () => {
 const loadUserProfile = async () => {
   try {
     const userData = await api.getUserInfo();
+    currentUserId = userData._id;
     userInfo.setUserInfo({
       title: userData.name,
       description: userData.about
